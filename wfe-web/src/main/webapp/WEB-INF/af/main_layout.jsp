@@ -97,12 +97,11 @@
 				</table>
 				<af:tabHeader />
 				<hr>
-				<%-- //uncoment following lines for WFDEMO 
+				 <%--//uncoment following lines for WFDEMO
 				<a href="http://sourceforge.net" target="new"><img src="http://sourceforge.net/sflogo.php?group_id=125156&amp;type=1" border="0" alt="SourceForge.net Logo"/></a>
 				<BR>
 				<B>Feedback</B> 
-				<A HREF="http://sourceforge.net/forum/?group_id=125156" target="new">forum</A>
-				--%>
+				<A HREF="http://sourceforge.net/forum/?group_id=125156" target="new">forum</A>--%>
 				<%= WebResources.getAdditionalLinks() %>
 				<div style="padding: 3px; color: #aaa;">
 					<bean:message key="title.version"/> <b><%= Version.get() %></b>

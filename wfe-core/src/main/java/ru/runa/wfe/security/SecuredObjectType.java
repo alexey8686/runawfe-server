@@ -130,4 +130,5 @@ public final class SecuredObjectType implements Serializable, Comparable<Secured
     public static final SecuredObjectType SCRIPTS = new SecuredObjectType("SCRIPTS");
     public static final SecuredObjectType SUBSTITUTION_CRITERIAS = new SecuredObjectType("SUBSTITUTION_CRITERIAS");
     public static final SecuredObjectType SYSTEM = new SecuredObjectType("SYSTEM");
+    public static final SecuredObjectType PRINT = new SecuredObjectType("PRINT");
 }
