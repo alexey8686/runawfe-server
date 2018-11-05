@@ -8,7 +8,8 @@
         <%
             String executorType = request.getParameter("tabForwardName");
         %>
-        <wf:createExecutorForm type="<%= executorType %>" />
+        <h1>SAVED</h1>
+
     </tiles:put>
     <tiles:put name="messages" value="../common/messages.jsp" />
 </tiles:insert>

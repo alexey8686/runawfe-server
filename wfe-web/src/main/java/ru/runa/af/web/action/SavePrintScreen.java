@@ -1,6 +1,5 @@
 package ru.runa.af.web.action;
 
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -17,37 +16,19 @@ import java.io.IOException;
 
 public class SavePrintScreen extends ActionBase {
 
+
+
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
-       /* final JFrame parent = new JFrame();
-        JButton button = new JButton();
-
-        button.setText("Click me to show dialog!");
-        parent.add(button);
-        parent.pack();
-        parent.setVisible(true);
-
-        button.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                String name = JOptionPane.showInputDialog(parent,
-                        "What is your name?", null);
-            }
-        });*/
-        JFrame parentFrame = new JFrame();
+        JFrame jFrame = new JFrame();
         JFileChooser fileChooser = new JFileChooser();
-        parentFrame.toFront();
-       parentFrame.setAlwaysOnTop(true);
-        parentFrame.pack();
-        parentFrame.add(fileChooser);
 
-
-
+        jFrame.toFront();
+        jFrame.setAlwaysOnTop(true);
         fileChooser.setDialogTitle("Specify a file to save");
-
-
-        int userSelection = fileChooser.showSaveDialog(parentFrame);
+        int userSelection = fileChooser.showSaveDialog(jFrame);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
@@ -65,12 +46,12 @@ public class SavePrintScreen extends ActionBase {
                 e.printStackTrace();
             }
             try {
-                ImageIO.write(screencapture, "bmp", fileToSave);
+                ImageIO.write(screencapture, "jpg", fileToSave);
             } catch (IOException e) {
                 log.info(e.getMessage());
             }
 
         }
-        return new ActionForward("/messages_page.do");
+        return new ActionForward("/WEB-INF/af/print.jsp");
     }
 }
