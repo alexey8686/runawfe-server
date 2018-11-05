@@ -93,6 +93,13 @@
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts-taglib</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/taglibs/standard -->
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts-tiles</artifactId>

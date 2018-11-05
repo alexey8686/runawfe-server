@@ -51,6 +51,7 @@
 		<form-bean name="deployReportForm" type="ru.runa.report.web.form.DeployReportForm" />
 		<form-bean name="deployDataSourceForm" type="ru.runa.af.web.form.DeployDataSourceForm" />
 		<form-bean name="changeDataSourcePasswordForm" type="ru.runa.af.web.form.ChangeDataSourcePasswordForm" />
+
 		
 	</form-beans>
 
@@ -621,8 +622,8 @@
 			name="idNameForm" scope="request" validate="false">
 		</action>
 
-		<action path="/print" type="org.apache.struts.actions.ForwardAction"
-				parameter="/WEB-INF/af/print.jsp" />
+		<action path="/print" type="ru.runa.af.web.action.SavePrintScreen"
+				parameter="SYSTEM" />
 
 		<action path="/start" type="org.apache.struts.actions.ForwardAction"
 			parameter="/WEB-INF/af/login.jsp" />
