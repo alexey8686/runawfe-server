@@ -17,8 +17,6 @@ import java.io.IOException;
 public class SavePrintScreen extends ActionBase {
 
 
-
-
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
@@ -37,18 +35,20 @@ public class SavePrintScreen extends ActionBase {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(),e.getCause());
             }
             BufferedImage screencapture = null;
             try {
                 screencapture = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             } catch (AWTException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(),e.getCause());
+                return null;
             }
             try {
                 ImageIO.write(screencapture, "jpg", fileToSave);
             } catch (IOException e) {
-                log.info(e.getMessage());
+                log.error(e.getMessage(),e.getCause());
+                return null;
             }
 
         }
