@@ -51,8 +51,9 @@
 		<form-bean name="deployReportForm" type="ru.runa.report.web.form.DeployReportForm" />
 		<form-bean name="deployDataSourceForm" type="ru.runa.af.web.form.DeployDataSourceForm" />
 		<form-bean name="changeDataSourcePasswordForm" type="ru.runa.af.web.form.ChangeDataSourcePasswordForm" />
+		<form-bean name="multipleProcessForm" type="ru.runa.wf.web.form.MultipleProcessForm"/>
 
-		
+
 	</form-beans>
 
 	<!-- ========== Global Exceptions Definitions =================================== -->
@@ -99,7 +100,7 @@
 		<forward name="edit_settings" path="/edit_settings.do" />
 		<forward name="drop_settings" path="/drop_settings.do" />
 		<forward name="print_screen"
-				 path="/print.do?tabForwardName=print_screen" /> />
+			path="/print.do?tabForwardName=print_screen" /> />
 	</global-forwards>
 
 	<!-- ========== Action Mapping Definitions =================================== -->
@@ -117,6 +118,16 @@
 			<forward name="submitTask" path="/submit_task.do" redirect="false" />
 			<forward name="tasksList" path="/manage_tasks.do" redirect="true" />
 		</action>
+
+		<action path="/submitMultipleTaskForm" type="ru.runa.af.web.action.SubmitMultipleTaskFormAction"
+			name="multipleProcessForm" scope="request" input="/WEB-INF/wf/manage_tasks.jsp"
+			unknown="false" validate="true">
+			<forward name="success" path="/manage_tasks.do" redirect="true" />
+			<forward name="failure" path="/submit_task.do" redirect="false" />
+			<forward name="submitTask" path="/submit_task.do" redirect="false" />
+			<forward name="tasksList" path="/manage_tasks.do" redirect="true" />
+		</action>
+
 		<action path="/save_bot" type="ru.runa.af.web.action.SaveBotAction"
 			name="idForm" scope="request" input="/WEB-INF/wf/bot.jsp" unknown="false"
 			validate="false">
@@ -244,7 +255,7 @@
 			<forward name="success" path="/manage_process.do" redirect="true" />
 			<forward name="failure" path="/manage_process.do" redirect="true" />
 		</action>
-		<action path="/activateProcessExecution" type="ru.runa.wf.web.action.ActivateProcessExecutionAction" 
+		<action path="/activateProcessExecution" type="ru.runa.wf.web.action.ActivateProcessExecutionAction"
 			name="idForm" scope="request">
 			<forward name="success" path="/manage_process.do" redirect="true" />
 			<forward name="failure" path="/manage_process.do" redirect="true" />
@@ -253,7 +264,7 @@
 			<forward name="success" path="/manage_errors.do" redirect="true" />
 			<forward name="failure" path="/manage_errors.do" redirect="true" />
 		</action>
-		<action path="/suspendProcessExecution" type="ru.runa.wf.web.action.SuspendProcessExecutionAction" 
+		<action path="/suspendProcessExecution" type="ru.runa.wf.web.action.SuspendProcessExecutionAction"
 			name="idForm" scope="request">
 			<forward name="success" path="/manage_process.do" redirect="true" />
 			<forward name="failure" path="/manage_process.do" redirect="true" />
@@ -271,8 +282,8 @@
 			<forward name="failure" path="/manage_process.do" redirect="true" />
 		</action>
 		<action path="/upgradeProcessesToDefinitionVersion" type="ru.runa.wf.web.action.UpgradeProcessesToDefinitionVersionAction"
-				name="idVersionForm" scope="request" input="/WEB-INF/wf/manage_process.jsp"
-				unknown="false" validate="true">
+			name="idVersionForm" scope="request" input="/WEB-INF/wf/manage_process.jsp"
+			unknown="false" validate="true">
 			<forward name="success" path="/manage_process_definition.do" redirect="true" />
 			<forward name="failure" path="/manage_process_definition.do" redirect="true" />
 		</action>
@@ -565,7 +576,7 @@
 				redirect="false" />
 		</action>
 		<action path="/reportResource"
-			type="ru.runa.report.web.action.GetReportResourceAction" 
+			type="ru.runa.report.web.action.GetReportResourceAction"
 			scope="request" unknown="false" validate="false">
 		</action>
 		<action path="/updateProcessVariable"
@@ -603,12 +614,12 @@
 			<forward name="failure" path="/manage_relation.do" redirect="true" />
 		</action>
 		<action path="/updatePermissions"
-                type="ru.runa.af.web.action.UpdatePermissionsAction" name="updatePermissionsForm"
-			    scope="request" unknown="false" validate="false">
+			type="ru.runa.af.web.action.UpdatePermissionsAction" name="updatePermissionsForm"
+			scope="request" unknown="false" validate="false">
 		</action>
 		<action path="/grantPermissions"
-                type="ru.runa.af.web.action.GrantPermissionsAction" name="grantPermissionsForm"
-			    scope="request" unknown="false" validate="false">
+			type="ru.runa.af.web.action.GrantPermissionsAction" name="grantPermissionsForm"
+			scope="request" unknown="false" validate="false">
 		</action>
 		<action path="/admin_scripts" type="ru.runa.common.web.action.AdminkitScriptsAction"
 			name="adminScriptForm" scope="request" validate="false">
@@ -623,7 +634,7 @@
 		</action>
 
 		<action path="/print" type="ru.runa.af.web.action.SavePrintScreen"
-				parameter="/WEB-INF/af/print.jsp" /> />
+			parameter="/WEB-INF/af/print.jsp" /> />
 
 		<action path="/start" type="org.apache.struts.actions.ForwardAction"
 			parameter="/WEB-INF/af/login.jsp" />
@@ -679,9 +690,9 @@
 		<action path="/manage_substitution_criteria" type="ru.runa.af.web.action.CheckSingletonPermissionAndForwardAction" parameter="SUBSTITUTION_CRITERIAS" />
 		<action path="/manage_datafile" type="ru.runa.af.web.action.CheckSingletonPermissionAndForwardAction" parameter="DATAFILE" />
 
-        <action path="/messages_page" type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/common/messages_page.jsp" />
+		<action path="/messages_page" type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/common/messages_page.jsp" />
 
-        <action path="/add_members_to_group" type="org.apache.struts.actions.ForwardAction"
+		<action path="/add_members_to_group" type="org.apache.struts.actions.ForwardAction"
 			parameter="/WEB-INF/af/add_members_to_group.jsp" />
 		<!-- wf struts actions -->
 		<action path="/manage_process_definitions" type="ru.runa.common.web.action.TabHeaderForwardAction"
@@ -760,7 +771,7 @@
 		<action path="/data_source_server_version" type="ru.runa.af.web.action.DataSourceServerVersionAction"
 			scope="request" input="/WEB-INF/wf/manage_data_sources.jsp" validate="false" >
 		</action>
-		
+
 		<action path="/edit_settings" type="org.apache.struts.actions.ForwardAction"
 			parameter="/WEB-INF/wf/edit_settings.jsp" />
 		<action path="/drop_settings" type="org.apache.struts.actions.ForwardAction"
@@ -777,9 +788,9 @@
 			parameter="/WEB-INF/wf/bot_station.jsp" />
 
 		<action path="/grantPermissionsForm" type="org.apache.struts.actions.ForwardAction"
-				parameter="/WEB-INF/af/grantPermissionsForm.jsp" />
+			parameter="/WEB-INF/af/grantPermissionsForm.jsp" />
 		<action path="/managePermissionsForm" type="org.apache.struts.actions.ForwardAction"
-				parameter="/WEB-INF/af/managePermissionsForm.jsp" />
+			parameter="/WEB-INF/af/managePermissionsForm.jsp" />
 		<action path="/show_history" type="org.apache.struts.actions.ForwardAction"
 			parameter="/WEB-INF/wf/show_history.jsp" />
 		<action path="/show_system_logs" type="org.apache.struts.actions.ForwardAction"
@@ -795,7 +806,7 @@
 			parameter="/WEB-INF/wf/process_graph_component.jsp" />
 		<action path="/process_graph_component_history" type="org.apache.struts.actions.ForwardAction"
 			parameter="/WEB-INF/wf/show_graph_component_history.jsp" />
-			
+
 
 		<action path="/version" type="org.apache.struts.actions.ForwardAction"
 			parameter="/WEB-INF/common/version.jsp" />
@@ -807,7 +818,7 @@
 			parameter="/WEB-INF/wf/show_tasks_history.jsp" />
 		<action path="/show_gantt_diagram" type="org.apache.struts.actions.ForwardAction"
 			parameter="/WEB-INF/wf/show_gantt_diagram.jsp" />
-			
+
 		<action path="/exportDataFileAction" type="ru.runa.wf.web.action.ExportDataFileAction"
 			scope="request" unknown="false" validate="false">
 		</action>
@@ -816,10 +827,10 @@
 			<forward name="success" path="/manage_datafile.do" redirect="true" />
 			<forward name="failure" path="/manage_datafile.do" redirect="true" />
 		</action>
-		
+
 		<action path="/update_process_variables" type="org.apache.struts.actions.ForwardAction"
 			parameter="/WEB-INF/wf/update_process_variables_value.jsp" />
-		
+
 		<action path="/update_process_swimlanes" type="org.apache.struts.actions.ForwardAction"
 			parameter="/WEB-INF/wf/update_process_swimlanes.jsp" />
 

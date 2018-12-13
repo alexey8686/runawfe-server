@@ -104,6 +104,11 @@ public abstract class BaseProcessFormAction extends ActionBase {
         return FormSubmissionUtils.extractVariables(request, actionForm, interaction, variableProvider);
     }
 
+  protected Map<String, Object> getFormVariables(HttpServletRequest request, ActionForm actionForm, Interaction interaction,
+      VariableProvider variableProvider, Long ID) {
+    return FormSubmissionUtils.extractVariables(request, actionForm, interaction, variableProvider);
+  }
+
     protected abstract ActionMessage getMessage(Long processId);
 
     protected abstract Long executeProcessFromAction(HttpServletRequest request, ActionForm form, ActionMapping mapping, Profile profile);

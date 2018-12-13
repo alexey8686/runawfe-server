@@ -105,6 +105,20 @@ public class FormSubmissionUtils {
         return variables;
     }
 
+    public static Map<String, Object> extractVariables(HttpServletRequest request, ActionForm actionForm, Interaction interaction,
+        VariableProvider variableProvider, Long ID) {
+        Map<String, String> errors = Maps.newHashMap();
+        Map<String, Object> userInput = Maps.newHashMap(actionForm.getMultipartRequestHandler().getAllElements());
+        userInput.putAll(getUserInputFiles(request, ID.toString()));
+        Map<String, Object> variables = extractVariables(request, interaction, variableProvider, userInput, errors);
+        request.setAttribute(USER_DEFINED_VARIABLES, variables);
+        if (errors.size() > 0) {
+            throw new VariablesFormatException(errors.keySet());
+        }
+        log.debug("Submitted: " + variables);
+        return variables;
+    }
+
     public static Object extractVariable(HttpServletRequest request, ActionForm actionForm, VariableDefinition variableDefinition) throws Exception {
         Map<String, String> formatErrorsForFields = Maps.newHashMap();
         Map<String, Object> inputs = Maps.newHashMap(actionForm.getMultipartRequestHandler().getAllElements());
