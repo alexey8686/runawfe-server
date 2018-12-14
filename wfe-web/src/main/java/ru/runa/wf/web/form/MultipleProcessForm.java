@@ -53,12 +53,12 @@ public class MultipleProcessForm extends ActionForm {
 
   public void setId(String id) {
     this.id = id;
-    String[] array = id.split(",");
+  /*  String[] array = id.split(",");
     Long[] longArray = new Long[array.length];
     for (int i = 0; i < array.length; i++) {
       longArray[i] = Long.parseLong(array[i]);
     }
-    setID(longArray);
+    setID(longArray);*/
   }
 
   public Long[] getID() {
