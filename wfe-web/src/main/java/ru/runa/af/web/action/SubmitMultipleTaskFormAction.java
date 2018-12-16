@@ -1,7 +1,5 @@
 package ru.runa.af.web.action;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -9,12 +7,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import ru.runa.common.WebResources;
 import ru.runa.common.web.Commons;
+import ru.runa.common.web.JsonConverter;
 import ru.runa.wf.web.FormSubmissionUtils;
 import ru.runa.wf.web.MessagesProcesses;
 import ru.runa.wf.web.action.BaseProcessFormAction;
@@ -34,52 +29,28 @@ public class SubmitMultipleTaskFormAction extends BaseProcessFormAction {
   @Override
   protected Long executeProcessFromAction(HttpServletRequest request, ActionForm actionForm,
       ActionMapping mapping, Profile profile) {
+
     User user = getLoggedUser(request);
-    MultipleProcessForm form = (MultipleProcessForm) actionForm;
-    JSONParser parser = new JSONParser();
-
-    JSONArray array = null;
-    ObjectMapper objectMapper=null;
-    try {
-      array = (JSONArray) parser.parse(form.getId());
-      objectMapper = new ObjectMapper();
-      for(Object obj:array) {
-        JSONObject jsonObject = (JSONObject) obj;
-        ProcessForm processForm=(ProcessForm)objectMapper.readValue(jsonObject.toJSONString(),ProcessForm.class);
-        Long id=processForm.getId();
-      }
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-      catch (IOException e) {
-        e.printStackTrace();
-      }
-
-
-
-
-
-    System.out.println();
+    MultipleProcessForm multipleProcessForm = (MultipleProcessForm) actionForm;
     Long processId = null;
-    for (int i = 0; i < form.getID().length; i++) {
 
-      Long taskId = form.getID()[i];
-      log.debug(user + " submitted task form for id " + taskId);
+    for (ProcessForm processForm : JsonConverter.getFormList(new ProcessForm(),multipleProcessForm.getMultipartRequestHandler(), multipleProcessForm.getId())) {
+
+      Long taskId = processForm.getId();
+      log.debug(user + " submitted task multipleProcessForm for id " + taskId);
       WfTask task = Delegates.getTaskService().getTask(user, taskId);
       Interaction interaction = Delegates.getDefinitionService()
           .getTaskNodeInteraction(user, task.getDefinitionId(), task.getNodeId());
       Map<String, Object> variables = getFormVariables(request, actionForm, interaction,
-          new DelegateProcessVariableProvider(user, task.getProcessId()),taskId);
+          new DelegateProcessVariableProvider(user, task.getProcessId()));
 
       if (WebResources.isAutoShowForm()) {
         processId = task.getProcessId();
       }
-      String transitionName = form.getSubmitButton();
+      String transitionName = processForm.getSubmitButton();
       variables.put(WfProcess.SELECTED_TRANSITION_KEY, transitionName);
-      Delegates.getTaskService().completeTask(user, taskId, variables, form.getActorId());
+      Delegates.getTaskService().completeTask(user, taskId, variables, processForm.getActorId());
       FormSubmissionUtils.clearUserInputFiles(request);
-
-
     }
     return processId;
   }
