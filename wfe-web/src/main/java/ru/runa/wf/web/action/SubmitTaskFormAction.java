@@ -57,22 +57,13 @@ import ru.runa.wfe.user.User;
 public class SubmitTaskFormAction extends BaseProcessFormAction {
 
 
-    TaskServiceBean taskServiceBean;
+
 
 
     @Override
     protected Long executeProcessFromAction(HttpServletRequest request, ActionForm actionForm, ActionMapping mapping, Profile profile) {
 
-        try {
 
-            taskServiceBean = (TaskServiceBean) new InitialContext().lookup("java:global/runawfe/wfe-service-4-SNAPSHOT/TaskServiceBean!ru.runa.wfe.service.decl.TaskServiceLocal");
-
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-        List<Long> taskIds = new ArrayList<>();
-        List<Map<String,Object>> veriablesList = new ArrayList<>();
-        List<Long> actorIds = new ArrayList<>();
 
         User user = getLoggedUser(request);
         ProcessForm form = (ProcessForm) actionForm;
@@ -88,11 +79,6 @@ public class SubmitTaskFormAction extends BaseProcessFormAction {
         }
         String transitionName = form.getSubmitButton();
         variables.put(WfProcess.SELECTED_TRANSITION_KEY, transitionName);
-        taskIds.add(taskId);
-        veriablesList.add(variables);
-        actorIds.add(form.getActorId());
-
-        taskServiceBean.completeMultiplTask(user,taskIds,veriablesList,actorIds);
         Delegates.getTaskService().completeTask(user, taskId, variables, form.getActorId());
         FormSubmissionUtils.clearUserInputFiles(request);
         return processId;
