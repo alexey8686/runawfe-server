@@ -51,7 +51,7 @@
 		<form-bean name="deployReportForm" type="ru.runa.report.web.form.DeployReportForm" />
 		<form-bean name="deployDataSourceForm" type="ru.runa.af.web.form.DeployDataSourceForm" />
 		<form-bean name="changeDataSourcePasswordForm" type="ru.runa.af.web.form.ChangeDataSourcePasswordForm" />
-
+		<form-bean name="multipleProcessForm" type="ru.runa.wf.web.form.MultipleProcessForm"/>
 		
 	</form-beans>
 
@@ -117,6 +117,16 @@
 			<forward name="submitTask" path="/submit_task.do" redirect="false" />
 			<forward name="tasksList" path="/manage_tasks.do" redirect="true" />
 		</action>
+
+		<action path="/submitMultipleTaskForm" type="ru.runa.wf.web.action.SubmitMultipleTaskFormAction"
+			name="multipleProcessForm" scope="request" input="/WEB-INF/wf/manage_tasks.jsp"
+			unknown="false" validate="true">
+			<forward name="success" path="/manage_tasks.do" redirect="true" />
+			<forward name="failure" path="/submit_task.do" redirect="false" />
+			<forward name="submitTask" path="/submit_task.do" redirect="false" />
+			<forward name="tasksList" path="/manage_tasks.do" redirect="true" />
+		</action>
+
 		<action path="/save_bot" type="ru.runa.af.web.action.SaveBotAction"
 			name="idForm" scope="request" input="/WEB-INF/wf/bot.jsp" unknown="false"
 			validate="false">
