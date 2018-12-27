@@ -86,9 +86,9 @@ public class TaskServiceBean implements TaskServiceLocal, TaskServiceRemote, Tas
         FileVariablesUtil.unproxyFileVariables(user, processId, taskId, variables);
         taskLogic.completeTask(user, taskId, variables, swimlaneActorId);
     }
-
+    @WebMethod(exclude = true)
     @Override
-    public void completeMultiplTask(User user, List<Long> taskIds,
+    public void completeMultipleTask(User user, List<Long> taskIds,
         List<Map<String, Object>> variablesList, List<Long> actorIds)
         throws TaskDoesNotExistException, ValidationException {
         for(int i = 0 ; i < taskIds.size(); i++){

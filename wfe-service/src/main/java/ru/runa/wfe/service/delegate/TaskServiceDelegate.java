@@ -5,9 +5,11 @@ import java.util.Map;
 import java.util.Set;
 import ru.runa.wfe.presentation.BatchPresentation;
 import ru.runa.wfe.service.TaskService;
+import ru.runa.wfe.task.TaskDoesNotExistException;
 import ru.runa.wfe.task.dto.WfTask;
 import ru.runa.wfe.user.Executor;
 import ru.runa.wfe.user.User;
+import ru.runa.wfe.validation.ValidationException;
 
 public class TaskServiceDelegate extends Ejb3Delegate implements TaskService {
 
@@ -23,6 +25,17 @@ public class TaskServiceDelegate extends Ejb3Delegate implements TaskService {
     public void completeTask(User user, Long taskId, Map<String, Object> variables, Long swimlaneActorId) {
         try {
             getTaskService().completeTask(user, taskId, variables, swimlaneActorId);
+        } catch (Exception e) {
+            throw handleException(e);
+        }
+    }
+
+    @Override
+    public void completeMultipleTask(User user, List<Long> taskIds,
+        List<Map<String, Object>> variablesList, List<Long> actorIds)
+        throws TaskDoesNotExistException, ValidationException {
+        try {
+            getTaskService().completeMultipleTask(user, taskIds, variablesList, actorIds);
         } catch (Exception e) {
             throw handleException(e);
         }

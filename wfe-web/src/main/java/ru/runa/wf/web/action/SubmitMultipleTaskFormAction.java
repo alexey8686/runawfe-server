@@ -6,17 +6,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.springframework.transaction.annotation.Transactional;
-import ru.runa.common.WebResources;
 import ru.runa.common.web.Commons;
 import ru.runa.common.web.JsonConverter;
 import ru.runa.common.web.Messages;
-import ru.runa.wf.web.FormSubmissionUtils;
 import ru.runa.wf.web.form.MultipleProcessForm;
 import ru.runa.wf.web.form.ProcessForm;
 import ru.runa.wfe.execution.dto.WfProcess;
 import ru.runa.wfe.form.Interaction;
 import ru.runa.wfe.service.client.DelegateProcessVariableProvider;
+import ru.runa.wfe.service.decl.TaskServiceLocal;
 import ru.runa.wfe.service.delegate.Delegates;
 import ru.runa.wfe.service.impl.TaskServiceBean;
 import ru.runa.wfe.task.dto.WfTask;
@@ -41,7 +39,7 @@ import java.util.*;
 public class SubmitMultipleTaskFormAction extends BaseMultipleProcessFormAction {
   /*Выполнение узла*/
 
-  TaskServiceBean taskServiceBean;
+  TaskServiceLocal taskServiceBean;
 
   @Override
   protected Long[] executeProcessFromActions(HttpServletRequest request, ActionForm actionForm,
@@ -49,7 +47,7 @@ public class SubmitMultipleTaskFormAction extends BaseMultipleProcessFormAction 
 
     try {
 
-      taskServiceBean = (TaskServiceBean) new InitialContext().lookup(
+      taskServiceBean = (TaskServiceLocal) new InitialContext().lookup(
           "java:global/runawfe/wfe-service-4-SNAPSHOT/TaskServiceBean!ru.runa.wfe.service.decl.TaskServiceLocal");
 
     } catch (NamingException e) {
@@ -97,7 +95,7 @@ public class SubmitMultipleTaskFormAction extends BaseMultipleProcessFormAction 
       actorIds.add(form.getActorId());
 
       //Выполнение узла
-      taskServiceBean.completeMultiplTask(user, taskIds, veriablesList, actorIds);
+      taskServiceBean.completeMultipleTask(user, taskIds, veriablesList, actorIds);
 
     }
 
