@@ -28,10 +28,12 @@ import ru.runa.wfe.service.interceptors.PerformanceObserver;
 import ru.runa.wfe.service.jaxb.Variable;
 import ru.runa.wfe.service.jaxb.VariableConverter;
 import ru.runa.wfe.service.utils.FileVariablesUtil;
+import ru.runa.wfe.task.TaskDoesNotExistException;
 import ru.runa.wfe.task.dto.WfTask;
 import ru.runa.wfe.task.logic.TaskLogic;
 import ru.runa.wfe.user.Executor;
 import ru.runa.wfe.user.User;
+import ru.runa.wfe.validation.ValidationException;
 
 @Stateless(name = "TaskServiceBean")
 @TransactionManagement(TransactionManagementType.BEAN)
@@ -83,6 +85,18 @@ public class TaskServiceBean implements TaskServiceLocal, TaskServiceRemote, Tas
         Long processId = taskLogic.getProcessId(user, taskId);
         FileVariablesUtil.unproxyFileVariables(user, processId, taskId, variables);
         taskLogic.completeTask(user, taskId, variables, swimlaneActorId);
+    }
+
+    @Override
+    public void completeMultiplTask(User user, List<Long> taskIds,
+        List<Map<String, Object>> variablesList, List<Long> actorIds)
+        throws TaskDoesNotExistException, ValidationException {
+        for(int i = 0 ; i < taskIds.size(); i++){
+            Long processId = taskLogic.getProcessId(user, taskIds.get(i));
+            FileVariablesUtil.unproxyFileVariables(user, processId, taskIds.get(i), variablesList.get(i));
+            taskLogic.completeTask(user, taskIds.get(i), variablesList.get(i), actorIds.get(i));
+        }
+
     }
 
     @Override

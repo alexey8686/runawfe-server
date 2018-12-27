@@ -115,6 +115,9 @@ public interface TaskService {
     public void completeTask(User user, Long taskId, Map<String, Object> variables, Long swimlaneActorId) throws TaskDoesNotExistException,
             ValidationException;
 
+    public void completeMultiplTask (User user, List<Long> taskIds,List<Map<String,Object>> variablesList,List<Long> actorIds)throws TaskDoesNotExistException,
+        ValidationException;
+
     /**
      * Marks task as read.
      * 
